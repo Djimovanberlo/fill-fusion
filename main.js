@@ -66,9 +66,16 @@ function renderEmpty() {
   stave.setContext(context).draw();
 }
 
-const fill = fills[Math.floor(Math.random() * fills.length)];
-try {
-  renderFill(fill);
-} catch (e) {
-  document.getElementById("staff").textContent = e.message;
+let bpm = 120;
+
+function setBpm(value) {
+  bpm = Math.min(300, Math.max(40, Math.round(value)));
+  document.getElementById("bpm-input").value = bpm;
 }
+
+document.getElementById("bpm-dec").addEventListener("click", () => setBpm(bpm - 1));
+document.getElementById("bpm-inc").addEventListener("click", () => setBpm(bpm + 1));
+document.getElementById("bpm-input").addEventListener("change", (e) => {
+  const parsed = parseInt(e.target.value, 10);
+  setBpm(isNaN(parsed) ? bpm : parsed);
+});
