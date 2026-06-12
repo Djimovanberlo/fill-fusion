@@ -76,9 +76,73 @@ function renderFill(fill) {
   }
 }
 
-const fill = fills[Math.floor(Math.random() * fills.length)];
-try {
-  renderFill(fill);
-} catch (e) {
-  document.getElementById("staff").textContent = e.message;
+function renderEmpty() {
+  const container = document.getElementById("staff");
+  container.innerHTML = "";
+
+  const width = container.clientWidth || 800;
+  const renderer = new Renderer(container, Renderer.Backends.SVG);
+  renderer.resize(width, 220);
+  const context = renderer.getContext();
+
+  const stave = new Stave(10, 60, width - 20);
+  stave.addClef("percussion");
+  stave.addTimeSignature("4/4");
+  stave.setContext(context).draw();
 }
+
+let bpm = 120;
+
+function setBpm(value) {
+  bpm = Math.min(300, Math.max(40, Math.round(value)));
+  document.getElementById("bpm-input").value = bpm;
+}
+
+document.getElementById("bpm-dec").addEventListener("click", () => setBpm(bpm - 1));
+document.getElementById("bpm-inc").addEventListener("click", () => setBpm(bpm + 1));
+document.getElementById("bpm-input").addEventListener("change", (e) => {
+  const parsed = parseInt(e.target.value, 10);
+  setBpm(isNaN(parsed) ? bpm : parsed);
+});
+
+let beatIndex = 0;
+let measureIndex = 0;
+let lastBeatTime = null;
+
+function onBeat(beat) {
+  document.getElementById("beat-counter").textContent = beat + 1;
+
+  if (beat === 0) {
+    if (measureIndex % 4 === 3) {
+      const fill = fills[Math.floor(Math.random() * fills.length)];
+      try {
+        renderFill(fill);
+      } catch (e) {
+        document.getElementById("staff").textContent = e.message;
+      }
+    } else {
+      renderEmpty();
+    }
+    measureIndex++;
+  }
+}
+
+function tick(timestamp) {
+  if (lastBeatTime === null) {
+    lastBeatTime = timestamp;
+    onBeat(0);
+    requestAnimationFrame(tick);
+    return;
+  }
+
+  const mspb = 60000 / bpm;
+  if (timestamp - lastBeatTime >= mspb) {
+    lastBeatTime += mspb;
+    beatIndex = (beatIndex + 1) % 4;
+    onBeat(beatIndex);
+  }
+
+  requestAnimationFrame(tick);
+}
+
+requestAnimationFrame(tick);
