@@ -79,3 +79,43 @@ document.getElementById("bpm-input").addEventListener("change", (e) => {
   const parsed = parseInt(e.target.value, 10);
   setBpm(isNaN(parsed) ? bpm : parsed);
 });
+
+let beatIndex = 0;
+let lastBeatTime = null;
+
+function onBeat(index) {
+  document.getElementById("beat-counter").textContent = (index % 4) + 1;
+
+  if (index % 4 === 0) {
+    if (index % 16 === 12) {
+      const fill = fills[Math.floor(Math.random() * fills.length)];
+      try {
+        renderFill(fill);
+      } catch (e) {
+        document.getElementById("staff").textContent = e.message;
+      }
+    } else {
+      renderEmpty();
+    }
+  }
+}
+
+function tick(timestamp) {
+  if (lastBeatTime === null) {
+    lastBeatTime = timestamp;
+    onBeat(0);
+    requestAnimationFrame(tick);
+    return;
+  }
+
+  const mspb = 60000 / bpm;
+  if (timestamp - lastBeatTime >= mspb) {
+    lastBeatTime += mspb;
+    beatIndex = (beatIndex + 1) % 16;
+    onBeat(beatIndex);
+  }
+
+  requestAnimationFrame(tick);
+}
+
+requestAnimationFrame(tick);
