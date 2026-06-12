@@ -45,7 +45,7 @@ Staff positions (pitch values) map to drum voices as follows — exact values to
 
 ## Data Format
 
-`data/fills.js` exports a single array of fill objects:
+`data/fills.js` exports a single array of 2 mock fill objects (more to be added later):
 
 ```js
 export const fills = [
@@ -54,15 +54,17 @@ export const fills = [
     voices: {
       crash:     "r/w",
       hihat:     "r/w",
-      highTom:   "r/h, A5/q, A5/q",
-      midTom:    "r/h, r/q, G5/q",
+      highTom:   "r/h, [TBD]/q, [TBD]/q",   // pitch TBD — see mapping table
+      midTom:    "r/h, r/q, [TBD]/q",
       floorTom:  "r/w",
-      snare:     "B4/q, B4/q, r/h",
-      kick:      "C4/q, r/q, C4/q, r/q"
+      snare:     "[TBD]/q, [TBD]/q, r/h",
+      kick:      "[TBD]/q, r/q, [TBD]/q, r/q"
     }
   }
 ]
 ```
+
+Pitch placeholders (`[TBD]`) will be replaced with correct VexFlow staff positions during implementation, once confirmed against the mapping table.
 
 Rules:
 - All 7 voice keys must be present in every fill.
