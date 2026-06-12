@@ -51,6 +51,21 @@ function renderFill(fill) {
   allBeams.forEach((b) => b.setContext(context).draw());
 }
 
+function renderEmpty() {
+  const container = document.getElementById("staff");
+  container.innerHTML = "";
+
+  const width = container.clientWidth || 800;
+  const renderer = new Renderer(container, Renderer.Backends.SVG);
+  renderer.resize(width, 220);
+  const context = renderer.getContext();
+
+  const stave = new Stave(10, 60, width - 20);
+  stave.addClef("percussion");
+  stave.addTimeSignature("4/4");
+  stave.setContext(context).draw();
+}
+
 const fill = fills[Math.floor(Math.random() * fills.length)];
 try {
   renderFill(fill);
