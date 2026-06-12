@@ -3,13 +3,15 @@ import { fills } from "./data/fills.js";
 const { Renderer, Stave, Voice, Formatter, Beam, StaveNote } = Vex.Flow;
 
 const VOICE_CONFIG = {
-  crash:    { isXHead: true,  stemDirection:  1 },
-  hihat:    { isXHead: true,  stemDirection:  1 },
-  highTom:  { isXHead: false, stemDirection:  1 },
-  midTom:   { isXHead: false, stemDirection:  1 },
-  floorTom: { isXHead: false, stemDirection:  1 },
-  snare:    { isXHead: false, stemDirection:  1 },
-  kick:     { isXHead: false, stemDirection: -1 },
+  crash:     { isXHead: true,  stemDirection:  1 },
+  hihat:     { isXHead: true,  stemDirection:  1 },
+  hihatOpen: { isXHead: true,  stemDirection:  1 },
+  hihatFoot: { isXHead: true,  stemDirection: -1 },
+  highTom:   { isXHead: false, stemDirection:  1 },
+  midTom:    { isXHead: false, stemDirection:  1 },
+  floorTom:  { isXHead: false, stemDirection:  1 },
+  snare:     { isXHead: false, stemDirection:  1 },
+  kick:      { isXHead: false, stemDirection: -1 },
 };
 
 function renderFill(fill) {
