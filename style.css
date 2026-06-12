@@ -1,1 +1,73 @@
-/* styles added in Tasks 2 and 7 */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a;
+  color: #f0f0f0;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 16px;
+  gap: 16px;
+}
+
+#staff {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#next-btn {
+  background: #444;
+  color: #f0f0f0;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+#next-btn:hover {
+  background: #666;
+}
+
+#orientation-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #1a1a1a;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 2rem;
+}
+
+@media (orientation: portrait) {
+  #orientation-overlay {
+    display: flex;
+  }
+}
+
+.render-error {
+  color: #e55;
+  font-size: 1rem;
+  text-align: center;
+  padding: 1rem;
+}
