@@ -86,7 +86,11 @@ function pickRandom(arr) {
 
 function showError(message) {
   const container = document.getElementById('staff');
-  container.innerHTML = `<p class="render-error">Could not render fill: ${message}</p>`;
+  container.innerHTML = '';
+  const p = document.createElement('p');
+  p.className = 'render-error';
+  p.textContent = `Could not render fill: ${message}`;
+  container.appendChild(p);
 }
 
 function loadRandomFill() {
