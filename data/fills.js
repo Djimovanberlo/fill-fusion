@@ -1,5 +1,6 @@
-// Each voice is an array of [key, duration] pairs in VexFlow format.
+// Each voice is an array of [key, duration, ?modifier] tuples in VexFlow format.
 // Keys: 'b/4', 'g/5', etc. Durations: 'w' 'h' 'q' '8' '16', append 'r' for rests.
+// Optional third element: 'flam' adds a grace note before the note.
 export const fills = [
   {
     id: 'fill-001',
