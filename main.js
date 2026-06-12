@@ -81,13 +81,14 @@ document.getElementById("bpm-input").addEventListener("change", (e) => {
 });
 
 let beatIndex = 0;
+let measureIndex = 0;
 let lastBeatTime = null;
 
-function onBeat(index) {
-  document.getElementById("beat-counter").textContent = (index % 4) + 1;
+function onBeat(beat) {
+  document.getElementById("beat-counter").textContent = beat + 1;
 
-  if (index % 4 === 0) {
-    if (index % 16 === 12) {
+  if (beat === 0) {
+    if (measureIndex % 4 === 3) {
       const fill = fills[Math.floor(Math.random() * fills.length)];
       try {
         renderFill(fill);
@@ -97,6 +98,7 @@ function onBeat(index) {
     } else {
       renderEmpty();
     }
+    measureIndex++;
   }
 }
 
@@ -111,7 +113,7 @@ function tick(timestamp) {
   const mspb = 60000 / bpm;
   if (timestamp - lastBeatTime >= mspb) {
     lastBeatTime += mspb;
-    beatIndex = (beatIndex + 1) % 16;
+    beatIndex = (beatIndex + 1) % 4;
     onBeat(beatIndex);
   }
 
