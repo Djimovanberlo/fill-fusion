@@ -1,6 +1,6 @@
 import { fills } from "./data/fills.js";
 
-const { Renderer, Stave, Voice, Formatter, Beam, StaveNote } = Vex.Flow;
+const { Renderer, Stave, Voice, Formatter, Beam, StaveNote, GraceNote, GraceNoteGroup } = Vex.Flow;
 
 const VOICE_CONFIG = {
   crash:     { isXHead: true,  stemDirection:  1 },
@@ -41,7 +41,7 @@ function renderFill(fill) {
         stemDirection: cfg.stemDirection,
         ...(cfg.isXHead ? { noteType: "x" } : {}),
       });
-      if (nd[2]) sn.addModifier(nd[2]);
+      if (nd[2] === 'flam') sn.addModifier(new GraceNoteGroup([new GraceNote({ keys: [nd[0]], duration: '8', slash: true })]));
       return sn;
     });
 

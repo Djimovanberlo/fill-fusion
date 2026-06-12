@@ -35,7 +35,7 @@ export const fills = [
       floorTom:  [['b/4', 'wr']],
       snare: [
         ['b/4', 'qr'],
-        ['b/4', 'q'],
+        ['b/4', 'q', 'flam'],
         ['b/4', 'qr'],
         ['b/4', 'q'],
       ],
