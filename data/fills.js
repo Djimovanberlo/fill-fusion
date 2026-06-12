@@ -1,28 +1,28 @@
+// Each voice is an array of [key, duration] pairs in VexFlow format.
+// Keys: 'b/4', 'g/5', etc. Durations: 'w' 'h' 'q' '8' '16', append 'r' for rests.
 export const fills = [
   {
-    // Fill 1: Driving pattern — hi-hat on every beat, high tom on beat 4
     id: 'fill-001',
     voices: {
-      crash:    'r/w',
-      hihat:    'G5/q, G5/q, G5/q, G5/q',
-      highTom:  'r/h, r/q, E5/q',
-      midTom:   'r/w',
-      floorTom: 'r/w',
-      snare:    'r/q, B4/q, r/q, B4/q',
-      kick:     'C4/q, r/q, C4/q, r/q',
+      crash:    [['b/4', 'wr']],
+      hihat:    [['g/5', 'q'], ['g/5', 'q'], ['g/5', 'q'], ['g/5', 'q']],
+      highTom:  [['b/4', 'hr'], ['b/4', 'qr'], ['e/5', 'q']],
+      midTom:   [['b/4', 'wr']],
+      floorTom: [['b/4', 'wr']],
+      snare:    [['b/4', 'qr'], ['b/4', 'q'], ['b/4', 'qr'], ['b/4', 'q']],
+      kick:     [['c/4', 'q'], ['b/4', 'qr'], ['c/4', 'q'], ['b/4', 'qr']],
     },
   },
   {
-    // Fill 2: Descending tom fill — snare+kick leadoff, toms cascade on beats 2, 3, 4
     id: 'fill-002',
     voices: {
-      crash:    'r/w',
-      hihat:    'r/w',
-      highTom:  'r/q, E5/q, r/h',
-      midTom:   'r/h, D5/q, r/q',
-      floorTom: 'r/h, r/q, A4/q',
-      snare:    'B4/q, r/h, r/q',
-      kick:     'C4/q, r/q, r/h',
+      crash:    [['b/4', 'wr']],
+      hihat:    [['b/4', 'wr']],
+      highTom:  [['b/4', 'qr'], ['e/5', 'q'], ['b/4', 'hr']],
+      midTom:   [['b/4', 'hr'], ['d/5', 'q'], ['b/4', 'qr']],
+      floorTom: [['b/4', 'hr'], ['b/4', 'qr'], ['a/4', 'q']],
+      snare:    [['b/4', 'q'], ['b/4', 'hr'], ['b/4', 'qr']],
+      kick:     [['c/4', 'q'], ['b/4', 'qr'], ['b/4', 'hr']],
     },
   },
 ];
