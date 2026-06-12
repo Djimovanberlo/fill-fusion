@@ -12,6 +12,18 @@ const VOICE_CONFIG = {
   kick:     { isXHead: false, stemDirection: -1 },
 };
 
+const VOICE_COLORS = {
+  crash:     '#e63946',
+  hihat:     '#457b9d',
+  hihatOpen: '#457b9d',
+  hihatFoot: '#1d3557',
+  highTom:   '#2a9d8f',
+  midTom:    '#e9c46a',
+  floorTom:  '#f4a261',
+  snare:     '#6a4c93',
+  kick:      '#264653',
+};
+
 function renderFill(fill) {
   const container = document.getElementById("staff");
   container.innerHTML = "";
@@ -24,10 +36,11 @@ function renderFill(fill) {
   const stave = new Stave(10, 60, width - 20);
   stave.addClef("percussion");
   stave.addTimeSignature("4/4");
+  context.setFillStyle("#000");
+  context.setStrokeStyle("#000");
   stave.setContext(context).draw();
 
-  const vfVoices = [];
-  const allBeams = [];
+  const voicesWithMeta = [];
 
   for (const [voiceName, noteData] of Object.entries(fill.voices)) {
     const cfg = VOICE_CONFIG[voiceName];
@@ -41,14 +54,20 @@ function renderFill(fill) {
 
     const voice = new Voice({ numBeats: 4, beatValue: 4 });
     voice.addTickables(notes);
-    vfVoices.push(voice);
-
-    allBeams.push(...Beam.generateBeams(notes.filter((n) => !n.isRest())));
+    const beams = Beam.generateBeams(notes.filter((n) => !n.isRest()));
+    voicesWithMeta.push({ voice, beams, voiceName });
   }
 
+  const vfVoices = voicesWithMeta.map(({ voice }) => voice);
   new Formatter().joinVoices(vfVoices).format(vfVoices, width - 40);
-  vfVoices.forEach((v) => v.draw(context, stave));
-  allBeams.forEach((b) => b.setContext(context).draw());
+
+  for (const { voice, beams, voiceName } of voicesWithMeta) {
+    const color = VOICE_COLORS[voiceName] || "#000";
+    context.setFillStyle(color);
+    context.setStrokeStyle(color);
+    voice.draw(context, stave);
+    beams.forEach((b) => b.setContext(context).draw());
+  }
 }
 
 const fill = fills[Math.floor(Math.random() * fills.length)];
