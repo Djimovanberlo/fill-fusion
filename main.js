@@ -50,7 +50,7 @@ function renderFill(fill) {
   const container = document.getElementById('staff');
   container.innerHTML = '';
 
-  const width = container.clientWidth;
+  const width = container.clientWidth || 800;
   const renderer = new Renderer(container, Renderer.Backends.SVG);
   renderer.resize(width, 220);
   const context = renderer.getContext();
@@ -65,6 +65,7 @@ function renderFill(fill) {
 
   for (const [voiceName, noteStr] of Object.entries(fill.voices)) {
     const cfg = VOICE_CONFIG[voiceName];
+    if (!cfg) throw new Error(`Unknown voice: "${voiceName}"`);
     const notes = parseVoiceString(noteStr, cfg);
 
     const voice = new Voice({ numBeats: 4, beatValue: 4 });
@@ -79,5 +80,23 @@ function renderFill(fill) {
   allBeams.forEach(b => b.setContext(context).draw());
 }
 
-// Temporary: render first fill on load for visual verification
-renderFill(fills[0]);
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function showError(message) {
+  const container = document.getElementById('staff');
+  container.innerHTML = `<p class="render-error">Could not render fill: ${message}</p>`;
+}
+
+function loadRandomFill() {
+  const fill = pickRandom(fills);
+  try {
+    renderFill(fill);
+  } catch (err) {
+    showError(err.message);
+  }
+}
+
+document.getElementById('next-btn').addEventListener('click', loadRandomFill);
+loadRandomFill();
