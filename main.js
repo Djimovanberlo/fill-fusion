@@ -34,12 +34,16 @@ function renderFill(fill) {
   for (const [voiceName, noteData] of Object.entries(fill.voices)) {
     const cfg = VOICE_CONFIG[voiceName];
     if (!cfg) throw new Error(`Unknown voice: "${voiceName}"`);
-    const notes = noteData.map(([key, dur]) => new StaveNote({
-      keys: [key],
-      duration: dur,
-      stemDirection: cfg.stemDirection,
-      ...(cfg.isXHead ? { noteType: "x" } : {}),
-    }));
+    const notes = noteData.map((nd) => {
+      const sn = new StaveNote({
+        keys: [nd[0]],
+        duration: nd[1],
+        stemDirection: cfg.stemDirection,
+        ...(cfg.isXHead ? { noteType: "x" } : {}),
+      });
+      if (nd[2]) sn.addModifier(nd[2]);
+      return sn;
+    });
 
     const voice = new Voice({ numBeats: 4, beatValue: 4 });
     voice.addTickables(notes);
