@@ -25,4 +25,22 @@ export const fills = [
       kick:     [['c/4', 'q'], ['b/4', 'qr'], ['b/4', 'hr']],
     },
   },
+  {
+    id: 'fill-003',
+    voices: {
+      crash:     [['b/4', 'wr']],
+      hihatOpen: [['g/5', 'q'], ['g/5', 'q'], ['g/5', 'q'], ['g/5', 'q']],
+      highTom:   [['b/4', 'wr']],
+      midTom:    [['b/4', 'wr']],
+      floorTom:  [['b/4', 'wr']],
+      snare: [
+        ['b/4', 'qr'],
+        ['b/4', 'q', new Vex.Flow.GraceNoteGroup([new Vex.Flow.GraceNote({ keys: ['b/4'], duration: '8', slash: true })])],
+        ['b/4', 'qr'],
+        ['b/4', 'q'],
+      ],
+      hihatFoot: [['e/4', 'q'], ['e/4', 'qr'], ['e/4', 'q'], ['e/4', 'qr']],
+      kick:      [['c/4', 'q'], ['b/4', 'qr'], ['c/4', 'q'], ['b/4', 'qr']],
+    },
+  },
 ];
