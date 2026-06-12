@@ -35,7 +35,7 @@ export const fills = [
       floorTom:  [['b/4', 'wr']],
       snare: [
         ['b/4', 'qr'],
-        ['b/4', 'q', new Vex.Flow.GraceNoteGroup([new Vex.Flow.GraceNote({ keys: ['b/4'], duration: '8', slash: true })])],
+        ['b/4', 'q'],
         ['b/4', 'qr'],
         ['b/4', 'q'],
       ],
