@@ -29,17 +29,17 @@ VexFlow is loaded via CDN (no install). It renders a single percussion staff spa
 
 Crash and hi-hat voices automatically receive × noteheads via VexFlow's note annotation API. All other voices use standard oval noteheads.
 
-Staff positions (pitch values) map to drum voices as follows — exact values to be confirmed during implementation and documented in `main.js`:
+Staff positions (pitch values) map to drum voices as follows. These are standard drum notation positions; implementation should verify VexFlow renders them at the correct heights and adjust by a step if needed.
 
-| Voice     | Staff position | Notehead |
-|-----------|---------------|----------|
-| crash     | TBD           | ×        |
-| hihat     | TBD           | ×        |
-| highTom   | TBD           | oval     |
-| midTom    | TBD           | oval     |
-| floorTom  | TBD           | oval     |
-| snare     | TBD           | oval     |
-| kick      | TBD           | oval     |
+| Voice     | Pitch | Notehead |
+|-----------|-------|----------|
+| crash     | `A5`  | ×        |
+| hihat     | `G5`  | ×        |
+| highTom   | `E5`  | oval     |
+| midTom    | `D5`  | oval     |
+| floorTom  | `A4`  | oval     |
+| snare     | `B4`  | oval     |
+| kick      | `C4`  | oval     |
 
 ---
 
@@ -54,17 +54,15 @@ export const fills = [
     voices: {
       crash:     "r/w",
       hihat:     "r/w",
-      highTom:   "r/h, [TBD]/q, [TBD]/q",   // pitch TBD — see mapping table
-      midTom:    "r/h, r/q, [TBD]/q",
+      highTom:   "r/h, E5/q, E5/q",
+      midTom:    "r/h, r/q, D5/q",
       floorTom:  "r/w",
-      snare:     "[TBD]/q, [TBD]/q, r/h",
-      kick:      "[TBD]/q, r/q, [TBD]/q, r/q"
+      snare:     "B4/q, B4/q, r/h",
+      kick:      "C4/q, r/q, C4/q, r/q"
     }
   }
 ]
 ```
-
-Pitch placeholders (`[TBD]`) will be replaced with correct VexFlow staff positions during implementation, once confirmed against the mapping table.
 
 Rules:
 - All 7 voice keys must be present in every fill.
