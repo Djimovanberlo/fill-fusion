@@ -1,15 +1,17 @@
 import { fills } from "./data/fills.js";
 
-const { Renderer, Stave, Voice, Formatter, Beam, StaveNote } = Vex.Flow;
+const { Renderer, Stave, Voice, Formatter, Beam, StaveNote, GraceNote, GraceNoteGroup } = Vex.Flow;
 
 const VOICE_CONFIG = {
-  crash:    { isXHead: true,  stemDirection:  1 },
-  hihat:    { isXHead: true,  stemDirection:  1 },
-  highTom:  { isXHead: false, stemDirection:  1 },
-  midTom:   { isXHead: false, stemDirection:  1 },
-  floorTom: { isXHead: false, stemDirection:  1 },
-  snare:    { isXHead: false, stemDirection:  1 },
-  kick:     { isXHead: false, stemDirection: -1 },
+  crash:     { isXHead: true,  stemDirection:  1 },
+  hihat:     { isXHead: true,  stemDirection:  1 },
+  hihatOpen: { isXHead: true,  stemDirection:  1 },
+  hihatFoot: { isXHead: true,  stemDirection: -1 },
+  highTom:   { isXHead: false, stemDirection:  1 },
+  midTom:    { isXHead: false, stemDirection:  1 },
+  floorTom:  { isXHead: false, stemDirection:  1 },
+  snare:     { isXHead: false, stemDirection:  1 },
+  kick:      { isXHead: false, stemDirection: -1 },
 };
 
 const VOICE_COLORS = {
@@ -45,12 +47,16 @@ function renderFill(fill) {
   for (const [voiceName, noteData] of Object.entries(fill.voices)) {
     const cfg = VOICE_CONFIG[voiceName];
     if (!cfg) throw new Error(`Unknown voice: "${voiceName}"`);
-    const notes = noteData.map(([key, dur]) => new StaveNote({
-      keys: [key],
-      duration: dur,
-      stemDirection: cfg.stemDirection,
-      ...(cfg.isXHead ? { noteType: "x" } : {}),
-    }));
+    const notes = noteData.map((nd) => {
+      const sn = new StaveNote({
+        keys: [nd[0]],
+        duration: nd[1],
+        stemDirection: cfg.stemDirection,
+        ...(cfg.isXHead ? { noteType: "x" } : {}),
+      });
+      if (nd[2] === 'flam') sn.addModifier(new GraceNoteGroup([new GraceNote({ keys: [nd[0]], duration: '8', slash: true })]));
+      return sn;
+    });
 
     const voice = new Voice({ numBeats: 4, beatValue: 4 });
     voice.addTickables(notes);

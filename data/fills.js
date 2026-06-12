@@ -1,5 +1,6 @@
-// Each voice is an array of [key, duration] pairs in VexFlow format.
+// Each voice is an array of [key, duration, ?modifier] tuples in VexFlow format.
 // Keys: 'b/4', 'g/5', etc. Durations: 'w' 'h' 'q' '8' '16', append 'r' for rests.
+// Optional third element: 'flam' adds a grace note before the note.
 export const fills = [
   {
     id: 'fill-001',
@@ -23,6 +24,24 @@ export const fills = [
       floorTom: [['b/4', 'hr'], ['b/4', 'qr'], ['a/4', 'q']],
       snare:    [['b/4', 'q'], ['b/4', 'hr'], ['b/4', 'qr']],
       kick:     [['c/4', 'q'], ['b/4', 'qr'], ['b/4', 'hr']],
+    },
+  },
+  {
+    id: 'fill-003',
+    voices: {
+      crash:     [['b/4', 'wr']],
+      hihatOpen: [['g/5', 'q'], ['g/5', 'q'], ['g/5', 'q'], ['g/5', 'q']],
+      highTom:   [['b/4', 'wr']],
+      midTom:    [['b/4', 'wr']],
+      floorTom:  [['b/4', 'wr']],
+      snare: [
+        ['b/4', 'qr'],
+        ['b/4', 'q', 'flam'],
+        ['b/4', 'qr'],
+        ['b/4', 'q'],
+      ],
+      hihatFoot: [['e/4', 'q'], ['e/4', 'qr'], ['e/4', 'q'], ['e/4', 'qr']],
+      kick:      [['c/4', 'q'], ['b/4', 'qr'], ['c/4', 'q'], ['b/4', 'qr']],
     },
   },
 ];
