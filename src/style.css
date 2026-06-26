@@ -1,29 +1,52 @@
-*, *::before, *::after {
+@font-face {
+  font-family: "Bravura";
+  src: url("/fonts/Bravura_1.392.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BravuraText";
+  src: url("/fonts/BravuraText_1.393.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Academico";
+  src: url("/fonts/Academico_0.902.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html,
+body {
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   background: white;
   color: #1a1a1a;
-  font-family: sans-serif;
-  overflow: hidden;
+  font-family: "Academico", serif;
 }
 
 #app {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 5vw;
   height: 100%;
-  padding: 16px;
 }
 
-#staff {
-  width: 100%;
-}
+/* 
+
+
 
 #orientation-overlay {
   display: none;
@@ -45,7 +68,11 @@ html, body {
   }
 }
 
-#staff svg {
+.staff {
+  width: 100%;
+}
+
+.staff svg {
   width: 100% !important;
   height: auto !important;
 }
@@ -61,40 +88,4 @@ html, body {
   user-select: none;
   z-index: 10;
 }
-
-#bpm-controls {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  z-index: 10;
-}
-
-#bpm-controls button {
-  background: #444;
-  color: #f0f0f0;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  line-height: 1;
-}
-
-#bpm-controls button:hover {
-  background: #666;
-}
-
-#bpm-input {
-  width: 52px;
-  text-align: center;
-  font-size: 1rem;
-  background: #333;
-  color: #f0f0f0;
-  border: 1px solid #555;
-  border-radius: 4px;
-  padding: 4px;
-}
+ */
