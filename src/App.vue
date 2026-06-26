@@ -4,7 +4,7 @@
   </div>
   <BeatCounter :beat="0" />
   <main>
-    <div id="staff"></div>
+    <Staff :fill="null" />
   </main>
   <BpmControls v-model:bpm="bpm" />
 </template>
@@ -13,6 +13,7 @@
 import { ref } from 'vue'
 import BeatCounter from './components/BeatCounter.vue'
 import BpmControls from './components/BpmControls.vue'
+import Staff from './components/Staff.vue'
 
 const bpm = ref(120)
 </script>
