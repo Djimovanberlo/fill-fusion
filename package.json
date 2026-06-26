@@ -1,5 +1,15 @@
 {
   "scripts": {
-    "start": "python3 -m http.server 8080"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "vexflow": "^4.2.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-vue": "^5.0.0"
   }
 }
