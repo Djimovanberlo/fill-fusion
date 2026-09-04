@@ -15,4 +15,14 @@ defineProps({
   font-size: 22px;
   text-align: center;
 }
+
+.beat-counter {
+  anchor-name: --beat-counter-anchor;
+}
+
+.beat-counter p {
+  position: absolute;
+  position-anchor: --beat-counter-anchor;
+  top: anchor(--beat-counter-anchor top);
+}
 </style>

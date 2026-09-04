@@ -70,4 +70,21 @@ function onInputChange(e) {
   border-radius: 4px;
   padding: 4px;
 }
+
+/* TESTING */
+/* 
+:global(.staff) {
+  anchor-name: --staff-anchor;
+}
+
+#bpm-controls {
+  position-anchor: --staff-anchor;
+  top: anchor(top);
+  left: calc(anchor(right) + 10px);
+  bottom: anchor(bottom);
+
+  top: anchor(--staff-anchor top);
+  left: calc(anchor(--staff-anchor right) + 10px);
+  bottom: anchor(--staff-anchor bottom);
+} */
 </style>

@@ -35,6 +35,7 @@ function onBeat(b) {
     }
     measureIndex.value++;
   }
+  console.log("C", currentFill.value);
 }
 
 function tick(timestamp) {
@@ -45,9 +46,9 @@ function tick(timestamp) {
     return;
   }
 
-  const mspb = 60000 / bpm.value;
-  if (timestamp - lastBeatTime >= mspb) {
-    lastBeatTime += mspb;
+  const msPerBeat = /* minute */ 60000 / bpm.value;
+  if (timestamp - lastBeatTime >= msPerBeat) {
+    lastBeatTime += msPerBeat;
     beatIndex = (beatIndex + 1) % 4;
     onBeat(beatIndex);
   }
@@ -56,7 +57,7 @@ function tick(timestamp) {
 }
 
 onMounted(() => {
-  // rafId = requestAnimationFrame(tick);
+  rafId = requestAnimationFrame(tick);
 });
 
 onUnmounted(() => {
@@ -86,4 +87,12 @@ main {
     margin-inline: auto;
   }
 }
+
+/* TESTING */
+
+/* @scope (#app) to (#bpm-input) {
+  #bpm-controls {
+    background-color: red;
+  }
+} */
 </style>

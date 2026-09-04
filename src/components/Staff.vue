@@ -5,15 +5,17 @@
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import {
-  Renderer,
-  Stave,
-  Voice,
-  Formatter,
-  Beam,
-  StaveNote,
-  GraceNote,
-  GraceNoteGroup,
+  Renderer as VexRenderer,
+  Stave as VexStave,
+  Voice as VexVoice,
+  Formatter as VexFormatter,
+  Beam as VexBeam,
+  StaveNote as VexStaveNote,
+  GraceNote as VexGraceNote,
+  GraceNoteGroup as VexGraceNoteGroup,
 } from "vexflow";
+import { VOICE_COLORS, VOICE_CONFIG } from "../data/voices";
+import { COLORS } from "../data/colors";
 
 const props = defineProps({
   fill: {
@@ -22,58 +24,42 @@ const props = defineProps({
   },
 });
 
-const VOICE_CONFIG = {
-  crash: { isXHead: true, stemDirection: 1 },
-  hihat: { isXHead: true, stemDirection: 1 },
-  hihatOpen: { isXHead: true, stemDirection: 1 },
-  hihatFoot: { isXHead: true, stemDirection: -1 },
-  highTom: { isXHead: false, stemDirection: 1 },
-  midTom: { isXHead: false, stemDirection: 1 },
-  floorTom: { isXHead: false, stemDirection: 1 },
-  snare: { isXHead: false, stemDirection: 1 },
-  kick: { isXHead: false, stemDirection: -1 },
-};
-
-const VOICE_COLORS = {
-  crash: "#e63946",
-  hihat: "#457b9d",
-  hihatOpen: "#457b9d",
-  hihatFoot: "#1d3557",
-  highTom: "#2a9d8f",
-  midTom: "#e9c46a",
-  floorTom: "#f4a261",
-  snare: "#6a4c93",
-  kick: "#264653",
-};
-
 const containerRef = ref(null);
 
-function renderEmpty() {
+const renderStave = () => {
   const container = containerRef.value;
+
+  if (!container) {
+    return;
+  }
+
   container.innerHTML = "";
   const width = container.clientWidth || 800;
-  const renderer = new Renderer(container, Renderer.Backends.SVG);
-  renderer.resize(width, 220);
+  const height = 220;
+  const renderer = new VexRenderer(container, VexRenderer.Backends.SVG);
+  renderer.resize(width, height);
+
+  const staveX = 10;
+  const staveY = 60;
+  const staveWidth = width - 20;
+  const stave = new VexStave(staveX, staveY, staveWidth);
+
   const context = renderer.getContext();
-  const stave = new Stave(10, 60, width - 20);
   stave.addClef("percussion");
   stave.addTimeSignature("4/4");
+
+  return { context, stave, width, height };
+};
+
+function renderEmpty() {
+  const { context, stave } = renderStave();
   stave.setContext(context).draw();
 }
 
 function renderFill(fill) {
-  const container = containerRef.value;
-  container.innerHTML = "";
-  const width = container.clientWidth || 800;
-  const renderer = new Renderer(container, Renderer.Backends.SVG);
-  renderer.resize(width, 220);
-  const context = renderer.getContext();
-
-  const stave = new Stave(10, 60, width - 20);
-  stave.addClef("percussion");
-  stave.addTimeSignature("4/4");
-  context.setFillStyle("#000");
-  context.setStrokeStyle("#000");
+  const { context, stave, width } = renderStave();
+  context.setFillStyle(COLORS.black);
+  context.setStrokeStyle(COLORS.black);
   stave.setContext(context).draw();
 
   const voicesWithMeta = [];
@@ -81,7 +67,7 @@ function renderFill(fill) {
     const cfg = VOICE_CONFIG[voiceName];
     if (!cfg) throw new Error(`Unknown voice: "${voiceName}"`);
     const notes = noteData.map((nd) => {
-      const sn = new StaveNote({
+      const sn = new VexStaveNote({
         keys: [nd[0]],
         duration: nd[1],
         stemDirection: cfg.stemDirection,
@@ -89,22 +75,22 @@ function renderFill(fill) {
       });
       if (nd[2] === "flam") {
         sn.addModifier(
-          new GraceNoteGroup([
-            new GraceNote({ keys: [nd[0]], duration: "8", slash: true }),
+          new VexGraceNoteGroup([
+            new VexGraceNote({ keys: [nd[0]], duration: "8", slash: true }),
           ]),
         );
       }
       return sn;
     });
 
-    const voice = new Voice({ numBeats: 4, beatValue: 4 });
+    const voice = new VexVoice({ numBeats: 4, beatValue: 4 });
     voice.addTickables(notes);
-    const beams = Beam.generateBeams(notes.filter((n) => !n.isRest()));
+    const beams = VexBeam.generateBeams(notes.filter((n) => !n.isRest()));
     voicesWithMeta.push({ voice, beams, voiceName });
   }
 
   const vfVoices = voicesWithMeta.map(({ voice }) => voice);
-  new Formatter().joinVoices(vfVoices).format(vfVoices, width - 40);
+  new VexFormatter().joinVoices(vfVoices).format(vfVoices, width - 40);
 
   for (const { voice, beams, voiceName } of voicesWithMeta) {
     const color = VOICE_COLORS[voiceName] || "#000";
@@ -115,19 +101,19 @@ function renderFill(fill) {
   }
 }
 
-function render() {
-  if (!containerRef.value) return;
-  if (props.fill) {
-    try {
-      renderFill(props.fill);
-    } catch (e) {
-      containerRef.value.textContent = e.message;
-    }
-  } else {
-    renderEmpty();
+function renderStaff() {
+  if (!containerRef.value) {
+    return;
   }
+
+  if (props.fill) {
+    renderFill(props.fill);
+    return;
+  }
+
+  renderEmpty();
 }
 
-onMounted(render);
-watch(() => props.fill, render);
+onMounted(renderStaff);
+watch(() => props.fill, renderStaff);
 </script>
