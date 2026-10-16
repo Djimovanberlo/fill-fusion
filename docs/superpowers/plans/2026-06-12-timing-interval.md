@@ -18,18 +18,17 @@ No build step. `main.js` currently renders one random fill on load then stops. `
 
 ## File Map
 
-| File         | Change                                                                               |
-| ------------ | ------------------------------------------------------------------------------------ |
-| `index.html` | Add `#beat-counter` and `#bpm-controls` markup                                       |
-| `style.css`  | Style beat counter (fixed top-center) and BPM controls (fixed bottom-right)          |
-| `main.js`    | Add `renderEmpty()`; add BPM state + controls; add RAF loop; replace one-shot render |
+| File | Change |
+|------|--------|
+| `index.html` | Add `#beat-counter` and `#bpm-controls` markup |
+| `style.css` | Style beat counter (fixed top-center) and BPM controls (fixed bottom-right) |
+| `main.js` | Add `renderEmpty()`; add BPM state + controls; add RAF loop; replace one-shot render |
 
 ---
 
 ### Task 1: Add HTML markup
 
 **Files:**
-
 - Modify: `index.html`
 
 - [ ] **Step 1: Replace index.html with the following**
@@ -37,28 +36,28 @@ No build step. `main.js` currently renders one random fill on load then stops. `
 ```html
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fill Fusion</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div id="orientation-overlay">
-      <p>Please rotate your device to landscape mode</p>
-    </div>
-    <div id="beat-counter">1</div>
-    <main id="app">
-      <div id="staff"></div>
-    </main>
-    <div id="bpm-controls">
-      <button id="bpm-dec">−</button>
-      <input id="bpm-input" type="text" value="120" />
-      <button id="bpm-inc">+</button>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/vexflow@4/build/cjs/vexflow.js"></script>
-    <script type="module" src="main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fill Fusion</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="orientation-overlay">
+    <p>Please rotate your device to landscape mode</p>
+  </div>
+  <div id="beat-counter">1</div>
+  <main id="app">
+    <div id="staff"></div>
+  </main>
+  <div id="bpm-controls">
+    <button id="bpm-dec">−</button>
+    <input id="bpm-input" type="text" value="120" />
+    <button id="bpm-inc">+</button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vexflow@4/build/cjs/vexflow.js"></script>
+  <script type="module" src="main.js"></script>
+</body>
 </html>
 ```
 
@@ -74,7 +73,6 @@ git commit -m "feat: add beat counter and BPM controls markup"
 ### Task 2: Style the new elements
 
 **Files:**
-
 - Modify: `style.css`
 
 - [ ] **Step 1: Append to style.css**
@@ -93,9 +91,9 @@ git commit -m "feat: add beat counter and BPM controls markup"
 }
 
 #bpm-controls {
-  /* position: fixed;
+  position: fixed;
   bottom: 16px;
-  right: 16px; */
+  right: 16px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -146,7 +144,6 @@ git commit -m "feat: style beat counter and BPM controls"
 ### Task 3: Add renderEmpty()
 
 **Files:**
-
 - Modify: `main.js`
 
 - [ ] **Step 1: Add renderEmpty() after the renderFill() function in main.js**
@@ -184,13 +181,11 @@ git commit -m "feat: add renderEmpty function"
 ### Task 4: Add BPM state and controls
 
 **Files:**
-
 - Modify: `main.js`
 
 - [ ] **Step 1: Replace the one-shot render block at the bottom of main.js**
 
 Remove:
-
 ```js
 const fill = fills[Math.floor(Math.random() * fills.length)];
 try {
@@ -201,7 +196,6 @@ try {
 ```
 
 Replace with:
-
 ```js
 let bpm = 120;
 
@@ -210,12 +204,8 @@ function setBpm(value) {
   document.getElementById("bpm-input").value = bpm;
 }
 
-document
-  .getElementById("bpm-dec")
-  .addEventListener("click", () => setBpm(bpm - 1));
-document
-  .getElementById("bpm-inc")
-  .addEventListener("click", () => setBpm(bpm + 1));
+document.getElementById("bpm-dec").addEventListener("click", () => setBpm(bpm - 1));
+document.getElementById("bpm-inc").addEventListener("click", () => setBpm(bpm + 1));
 document.getElementById("bpm-input").addEventListener("change", (e) => {
   const parsed = parseInt(e.target.value, 10);
   setBpm(isNaN(parsed) ? bpm : parsed);
@@ -234,7 +224,6 @@ git commit -m "feat: add BPM state and controls"
 ### Task 5: Add RAF timing loop and initial render
 
 **Files:**
-
 - Modify: `main.js`
 
 - [ ] **Step 1: Append the RAF loop to the bottom of main.js**
@@ -284,7 +273,6 @@ requestAnimationFrame(tick);
 - [ ] **Step 2: Verify in browser at 120 BPM**
 
 Reload. Expected:
-
 - Beat counter ticks 1 → 2 → 3 → 4 → 1 at 120 BPM (one beat every 500ms)
 - Empty percussion staff shows for measures 1–3 (12 beats)
 - A random fill appears on measure 4
