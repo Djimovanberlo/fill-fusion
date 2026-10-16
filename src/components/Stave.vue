@@ -12,8 +12,6 @@ import {
   StaveNote as VexStaveNote,
 } from "vexflow";
 
-const TIME_SIGNATURE = { numBeats: 4, beatValue: 4 };
-
 const props = defineProps({
   // Array of [key, duration] tuples, e.g. [["b/4", "q"], ["b/4", "q"]]
   notes: {
@@ -42,9 +40,7 @@ const draw = () => {
 
   const stave = new VexStave(10, 0, width - 20);
   stave.addClef("percussion");
-  stave.addTimeSignature(
-    `${TIME_SIGNATURE.numBeats}/${TIME_SIGNATURE.beatValue}`,
-  );
+  stave.addTimeSignature(`4/4`);
   stave.setConfigForLines([
     { visible: false },
     { visible: false },
