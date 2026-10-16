@@ -3,66 +3,68 @@
     <p>Full fusion only works in landscape mode</p>
   </div>
   <main>
-    <BeatCounter :beat="beat" />
+    <!-- <BeatCounter :beat="beat" /> -->
     <Staff :fill="currentFill" />
-    <BpmControls v-model:bpm="bpm" />
+    <!-- <BpmControls v-model:bpm="bpm" /> -->
   </main>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref /*, onMounted, onUnmounted */ } from "vue";
 import { fills } from "./data/fills.js";
-import BeatCounter from "./components/BeatCounter.vue";
-import BpmControls from "./components/BpmControls.vue";
+// import BeatCounter from "./components/BeatCounter.vue";
+// import BpmControls from "./components/BpmControls.vue";
 import Staff from "./components/Staff.vue";
 
-const bpm = ref(100);
-const beat = ref(1);
-const measureIndex = ref(0);
-const currentFill = ref(null);
+// const bpm = ref(100);
+// const beat = ref(1);
+// const measureIndex = ref(0);
 
-let rafId = null;
-let lastBeatTime = null;
-let beatIndex = 0;
+// static render for editing notes/styles — no beat loop
+const currentFill = ref(fills[0]);
 
-function onBeat(b) {
-  beat.value = b;
-  if (b === 0) {
-    if (measureIndex.value % 4 === 3) {
-      currentFill.value = fills[Math.floor(Math.random() * fills.length)];
-    } else {
-      currentFill.value = null;
-    }
-    measureIndex.value++;
-  }
-  console.log("C", currentFill.value);
-}
+// let rafId = null;
+// let lastBeatTime = null;
+// let beatIndex = 0;
 
-function tick(timestamp) {
-  if (lastBeatTime === null) {
-    lastBeatTime = timestamp;
-    onBeat(0);
-    rafId = requestAnimationFrame(tick);
-    return;
-  }
+// function onBeat(b) {
+//   beat.value = b;
+//   if (b === 0) {
+//     if (measureIndex.value % 4 === 3) {
+//       currentFill.value = fills[Math.floor(Math.random() * fills.length)];
+//     } else {
+//       currentFill.value = null;
+//     }
+//     measureIndex.value++;
+//   }
+//   console.log("C", currentFill.value);
+// }
 
-  const msPerBeat = /* minute */ 60000 / bpm.value;
-  if (timestamp - lastBeatTime >= msPerBeat) {
-    lastBeatTime += msPerBeat;
-    beatIndex = (beatIndex + 1) % 4;
-    onBeat(beatIndex);
-  }
+// function tick(timestamp) {
+//   if (lastBeatTime === null) {
+//     lastBeatTime = timestamp;
+//     onBeat(0);
+//     rafId = requestAnimationFrame(tick);
+//     return;
+//   }
 
-  rafId = requestAnimationFrame(tick);
-}
+//   const msPerBeat = /* minute */ 60000 / bpm.value;
+//   if (timestamp - lastBeatTime >= msPerBeat) {
+//     lastBeatTime += msPerBeat;
+//     beatIndex = (beatIndex + 1) % 4;
+//     onBeat(beatIndex);
+//   }
 
-onMounted(() => {
-  rafId = requestAnimationFrame(tick);
-});
+//   rafId = requestAnimationFrame(tick);
+// }
 
-onUnmounted(() => {
-  cancelAnimationFrame(rafId);
-});
+// onMounted(() => {
+//   rafId = requestAnimationFrame(tick);
+// });
+
+// onUnmounted(() => {
+//   cancelAnimationFrame(rafId);
+// });
 </script>
 
 <style lang="css" scoped>

@@ -53,6 +53,8 @@ const renderStave = () => {
 
 function renderEmpty() {
   const { context, stave } = renderStave();
+  // context.setFillStyle(COLORS.black);
+  // context.setStrokeStyle(COLORS.black);
   stave.setContext(context).draw();
 }
 
@@ -65,37 +67,38 @@ function renderFill(fill) {
   const voicesWithMeta = [];
   for (const [voiceName, noteData] of Object.entries(fill.voices)) {
     const cfg = VOICE_CONFIG[voiceName];
-    if (!cfg) throw new Error(`Unknown voice: "${voiceName}"`);
+
+    if (!cfg) {
+      throw new Error(`Unknown voice: "${voiceName}"`);
+    }
+
     const notes = noteData.map((nd) => {
-      const sn = new VexStaveNote({
-        keys: [nd[0]],
-        duration: nd[1],
-        stemDirection: cfg.stemDirection,
-        ...(cfg.isXHead ? { noteType: "x" } : {}),
+      const key = nd[0];
+      const duration = nd[1];
+      const stemDirection = cfg.stemDirection;
+
+      return new VexStaveNote({
+        keys: [key],
+        duration: duration,
+        stem_direction: stemDirection,
+        ...(cfg.noteHead ? { type: cfg.noteHead } : {}),
       });
-      if (nd[2] === "flam") {
-        sn.addModifier(
-          new VexGraceNoteGroup([
-            new VexGraceNote({ keys: [nd[0]], duration: "8", slash: true }),
-          ]),
-        );
-      }
-      return sn;
     });
 
-    const voice = new VexVoice({ numBeats: 4, beatValue: 4 });
-    voice.addTickables(notes);
+    const voice = new VexVoice({ numBeats: 4, beatValue: 4 }).addTickables(
+      notes,
+    );
     const beams = VexBeam.generateBeams(notes.filter((n) => !n.isRest()));
-    voicesWithMeta.push({ voice, beams, voiceName });
+    const voiceColor = VOICE_COLORS[voiceName] || COLORS.black;
+    voicesWithMeta.push({ voice, beams, voiceColor });
   }
 
   const vfVoices = voicesWithMeta.map(({ voice }) => voice);
   new VexFormatter().joinVoices(vfVoices).format(vfVoices, width - 40);
 
-  for (const { voice, beams, voiceName } of voicesWithMeta) {
-    const color = VOICE_COLORS[voiceName] || "#000";
-    context.setFillStyle(color);
-    context.setStrokeStyle(color);
+  for (const { voice, beams, voiceColor } of voicesWithMeta) {
+    context.setFillStyle(voiceColor);
+    context.setStrokeStyle(voiceColor);
     voice.draw(context, stave);
     beams.forEach((b) => b.setContext(context).draw());
   }

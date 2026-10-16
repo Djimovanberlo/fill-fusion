@@ -2,36 +2,55 @@
 // Keys: 'b/4', 'g/5', etc. Durations: 'w' 'h' 'q' '8' '16', append 'r' for rests.
 // Optional third element: 'flam' adds a grace note before the note.
 
+const notes = [
+  // A quarter-note C.
+  new StaveNote({ keys: ["c/4"], duration: "q" }),
+
+  // A quarter-note D.
+  new StaveNote({ keys: ["d/4"], duration: "q" }),
+
+  // A quarter-note rest. Note that the key (b/4) specifies the vertical
+  // position of the rest.
+  new StaveNote({ keys: ["b/4"], duration: "qr" }),
+
+  // A C-Major chord.
+  new StaveNote({ keys: ["c/4", "e/4", "g/4"], duration: "q" }),
+];
+
 export const fills = [
   {
     id: "fill-001",
     voices: {
-      crash: [["b/4", "wr"]],
+      crash: [["b/4", "w"]],
       hihat: [
-        ["g/5", "q"],
-        ["g/5", "q"],
-        ["g/5", "q"],
-        ["g/5", "q"],
+        ["g/5", "8"],
+        ["g/5", "8"],
+        ["g/5", "8"],
+        ["g/5", "8"],
+        ["g/5", "8"],
+        ["g/5", "8"],
+        ["g/5", "8"],
+        ["g/5", "8"],
       ],
-      highTom: [
-        ["b/4", "hr"],
-        ["b/4", "qr"],
-        ["e/5", "q"],
-      ],
-      midTom: [["b/4", "wr"]],
-      floorTom: [["b/4", "wr"]],
-      snare: [
-        ["b/4", "qr"],
-        ["b/4", "q"],
-        ["b/4", "qr"],
-        ["b/4", "q"],
-      ],
-      kick: [
-        ["c/4", "q"],
-        ["b/4", "qr"],
-        ["c/4", "q"],
-        ["b/4", "qr"],
-      ],
+      // highTom: [
+      //   ["b/4", "hr"],
+      //   ["b/4", "qr"],
+      //   ["e/5", "q"],
+      // ],
+      // midTom: [["b/4", "wr"]],
+      // floorTom: [["b/4", "wr"]],
+      // snare: [
+      //   ["b/4", "qr"],
+      //   ["b/4", "q"],
+      //   ["b/4", "qr"],
+      //   ["b/4", "q"],
+      // ],
+      // kick: [
+      //   ["c/4", "q"],
+      //   ["b/4", "qr"],
+      //   ["c/4", "q"],
+      //   ["b/4", "qr"],
+      // ],
     },
   },
   // {
