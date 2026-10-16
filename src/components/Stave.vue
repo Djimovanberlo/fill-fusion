@@ -34,12 +34,13 @@ const draw = () => {
 
   container.innerHTML = "";
   const width = container.clientWidth || 800;
+  const height = 100;
 
   const renderer = new VexRenderer(container, VexRenderer.Backends.SVG);
-  renderer.resize(width, 220);
+  renderer.resize(width, height);
   const context = renderer.getContext();
 
-  const stave = new VexStave(10, 60, width - 20);
+  const stave = new VexStave(10, 0, width - 20);
   stave.addClef("percussion");
   stave.addTimeSignature(
     `${TIME_SIGNATURE.numBeats}/${TIME_SIGNATURE.beatValue}`,
@@ -70,3 +71,5 @@ const draw = () => {
 // flush: "post" defers the first run until after mount, so the container ref exists
 watchEffect(draw, { flush: "post" });
 </script>
+
+<style></style>
